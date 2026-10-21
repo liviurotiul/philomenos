@@ -122,7 +122,7 @@ def main() -> None:
 
     ax.text(0.35, 0.42, "Philomenos pipeline", fontsize=18, fontweight="bold", color=INK, va="center")
     ax.text(0.35, 0.82, "Recombination-aware maximum-likelihood phylogeny from genome assemblies. "
-            "Values shown are the defaults (config keys in the README).",
+            "Values shown are the defaults (all options: docs/CONFIG.md).",
             fontsize=10.5, color=MUTED, va="center")
     ax.text(3.35, 1.13, "what it does (defaults)", fontsize=9.5, color=MUTED, fontweight="bold")
     ax.text(9.25, 1.13, "why", fontsize=9.5, color=MUTED, fontweight="bold")

@@ -1,8 +1,8 @@
 # Philomenos usage
 
 Every command, what it reads and writes, and how runs resume. The method and
-the stage contract are in [ARCHITECTURE.md](ARCHITECTURE.md); installation and
-the config reference are in the [README](../README.md).
+the stage contract are in [ARCHITECTURE.md](ARCHITECTURE.md), the config
+reference in [CONFIG.md](CONFIG.md), and installation details at the end.
 
 ## Commands
 
@@ -210,3 +210,44 @@ gitignored) can be shared between `smoke --tools-from` and your configs.
   snippy logs are in `logs/snippy_samples/`.
 - *`MISSING` in `doctor`*: the env for that group is unset or lacks the
   executable; check `tools.envs` and `tools.conda`.
+
+## Installation details
+
+| env file | provides (tool group in `tools.envs`) |
+|---|---|
+| `envs/philomenos.yml` | Python, numpy, matplotlib, biopython, pyyaml, pytest |
+| `envs/snippy.yml` | snippy 4.6.0, snp-sites 2.5.1 (`snippy`) |
+| `envs/gubbins.yml` | Gubbins 3.4.3, VeryFastTree 4.0.5, IQ-TREE 2.4.0 (`gubbins`, `iqtree`) |
+| `envs/pairsnp.yml` | pairsnp 0.3.1 (`pairsnp`) |
+| `envs/quast.yml` | QUAST 5.3.0 on Python 3.11 (`quast`) |
+| `envs/qc.yml` | skani 0.3.1, CheckM2 1.1.0 on Python 3.12 (`skani`, `checkm2`) |
+| `envs/mask.yml` | MUMmer 4.0.1, BLAST+ 2.12.0 dustmasker (`mask`) |
+
+Then point the config at the envs by name (or by prefix path):
+
+```yaml
+tools:
+  conda: conda
+  envs: {snippy: snippy, gubbins: gubbins, iqtree: gubbins, pairsnp: pairsnp,
+         quast: quast, skani: qc, checkm2: qc, mask: mask}
+```
+
+QUAST has its own env because QUAST 5.3.0 needs Python 3.11 while CheckM2
+1.1.0 needs Python 3.12 or later, so they cannot share one.
+CheckM2 is off by default; to use it, download its database once
+(`conda run -n qc checkm2 database --download --path <dir>`) and set
+`qc.checkm2: true` and `qc.checkm2_db`.
+
+### Docker
+
+```bash
+docker build -t philomenos .
+docker run --rm philomenos smoke --tools-from /opt/philomenos/tools.container.yaml --outdir /tmp/smoke
+docker run -d --name philo --user "$(id -u):$(id -g)" -v "$PWD":/work philomenos run -c config.yaml
+docker exec philo philomenos status runs/<name>
+```
+
+The image holds every env above. Copy the `tools:` block of
+`/opt/philomenos/tools.container.yaml` (env names, shown in the `Dockerfile`)
+into your config. Inside a container use `docker run -d` rather than
+`philomenos run --detach`.
