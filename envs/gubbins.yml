@@ -1,0 +1,12 @@
+# Tool groups `gubbins` and `iqtree`: run_gubbins.py, mask_gubbins_aln.py,
+# VeryFastTree (the Gubbins iteration tree builder) and iqtree2.
+name: gubbins
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python=3.10
+  - gubbins=3.4.3
+  - veryfasttree=4.0.5
+  - iqtree=2.4.0

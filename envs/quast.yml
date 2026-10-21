@@ -1,0 +1,11 @@
+# Tool group `quast` (the qc stage): QUAST assembly statistics.
+# A separate env because QUAST 5.3.0 needs Python 3.11 (it uses distutils,
+# removed in Python 3.12), while CheckM2 1.1.0 needs Python 3.12 or later.
+name: quast
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python=3.11      # QUAST 5.3.0 needs distutils (removed in Python 3.12)
+  - quast=5.3.0

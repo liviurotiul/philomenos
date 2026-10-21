@@ -1,0 +1,9 @@
+# Only envs/, src/, pyproject.toml and README.md are needed to build the image.
+*
+!envs/
+!src/
+!pyproject.toml
+!README.md
+**/__pycache__
+**/*.py[cod]
+**/*.egg-info

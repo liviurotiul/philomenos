@@ -1,0 +1,10 @@
+# Tool group `mask` (only for `philomenos build-mask`): nucmer and show-coords
+# from MUMmer 4 (self-repeats), dustmasker from BLAST+ (low complexity).
+name: mask
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - mummer4=4.0.1
+  - blast=2.12.0

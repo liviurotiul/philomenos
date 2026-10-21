@@ -1,0 +1,17 @@
+# Tool groups `skani` and `checkm2` (the qc stage). QUAST is in envs/quast.yml:
+# it needs Python 3.11, and every CheckM2 1.1.0 build needs Python 3.12 or later
+# (or < 3.9), so the two cannot share one env.
+# CheckM2 needs its DIAMOND database, which is not part of the env:
+#   conda run -n qc checkm2 database --download --path <dir>
+# then set qc.checkm2_db to <dir>/CheckM2_database/uniref100.KO.1.dmnd.
+# The CPU TensorFlow build keeps the env small and works without a GPU.
+name: qc
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python=3.12      # every CheckM2 1.1.0 build needs Python >= 3.12 (or < 3.9)
+  - skani=0.3.1
+  - checkm2=1.1.0
+  - tensorflow=*=cpu*

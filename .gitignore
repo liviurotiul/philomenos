@@ -1,7 +1,54 @@
+# --- pipeline outputs and local data (never commit) ---
 runs/
 metadata/
+smoke_runs/
+*.aln
+*.aln.gz
+*.fasta.gz
+*.vcf
+*.bam
+*.bai
+*.pid
+*.log
+nohup.out
+
+# local configs with private paths; commit only config/example.yaml
+config/*.local.yaml
+analyses/st492_paper/config.local.yaml
+
+# reference sequences are downloaded, not committed (masks and notes are kept)
+analyses/st492_paper/reference/*.fasta
+analyses/st492_paper/reference/*.gbk
+analyses/st492_paper/reference/*.fai
+
+# fastGEAR / MATLAB Runtime are fetched by a script, never committed
+tools/
+
+# --- python ---
 __pycache__/
 *.py[cod]
-reference/*.fasta
-reference/*.gbk
-*.log
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.venv/
+venv/
+
+# --- editors / agents / OS ---
+.vscode/
+.idea/
+*.code-workspace
+.agents/
+.codex/
+.DS_Store
+*~
+*.swp
+
+# study-specific samples tables with local FASTA paths
+analyses/st492_paper/samples*.local.tsv
+
+# local archive of the pre-0.2 scripts (molecular-clock era), kept on disk only
+archive/
+# root reference used by existing local runs; the repo ships masks + a download script
+/reference/

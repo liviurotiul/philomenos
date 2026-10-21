@@ -1,0 +1,80 @@
+# Philomenos run configuration. Relative paths resolve against this file's folder.
+# Only `samples` and `reference.fasta` are required; everything else has defaults.
+
+run:
+  name: my_run            # output goes to <outdir>/<name>/
+  outdir: runs
+  threads: 16
+
+# Tab-separated, one row per genome. Required columns: sample, fasta.
+# Optional: group (colours the trees) and any metadata (country, host, year, ...).
+samples: samples.tsv
+
+reference:
+  fasta: reference.fasta  # mapping reference (a closed genome of the same species/lineage)
+  genbank: null           # optional annotation, used only by `philomenos build-mask`
+  mask_bed: null          # optional repeat/mobile-element regions to exclude (philomenos build-mask)
+
+tools:
+  conda: conda            # conda/mamba executable used for `conda run`
+  envs:                   # conda env per tool group (prefix path or name); null = use PATH
+    snippy: null          # snippy, snippy-multi, snippy-core, snippy-clean_full_aln, snp-sites
+    gubbins: null         # run_gubbins.py, mask_gubbins_aln.py
+    iqtree: null          # iqtree2
+    pairsnp: null         # pairsnp
+    quast: null           # quast.py (QC assembly statistics)
+    skani: null           # skani (QC ANI check)
+    checkm2: null         # checkm2 (only if qc.checkm2: true)
+    mask: null            # nucmer, dustmasker (only for build-mask)
+
+qc:
+  enabled: true
+  quast_min_contig: 500   # QUAST --min-contig
+  min_length_frac: 0.85   # assembly length must be 0.85-1.25x the reference length
+  max_length_frac: 1.25
+  max_contigs: 500
+  min_n50: 10000
+  max_ns_per_100kbp: 1000
+  ani: true               # skani ANI vs the reference
+  min_ani: 95.0
+  min_aligned_frac: 70.0
+  checkm2: false
+  checkm2_db: null
+  min_completeness: 95.0
+  max_contamination: 5.0
+
+snippy:
+  jobs: 8                 # samples mapped in parallel
+  threads_per_job: 2
+  reuse_dir: null         # reuse per-sample snippy outputs from an earlier run
+
+covfilter:
+  min_breadth: 0.90       # fraction of the reference confidently called
+
+mask:
+  min_site_completeness: 0.95   # columns called in fewer samples than this are masked
+
+cluster:
+  snp_threshold: 10       # genomes within N SNPs share one tree tip (0 = off)
+
+gubbins:
+  iterations: 5
+  min_snps: 3
+  filter_percentage: 25.0
+  seed: 1
+
+iqtree:
+  model: GTR+G
+  ufboot: 1000
+  alrt: 1000
+  seed: 1
+
+tree:
+  outgroup: null          # sample id to root on; null = midpoint rooting
+
+report:
+  title: null
+  group_column: group
+  background_group: null  # drawn in grey; null = most common group
+  annotate: []            # extra columns shown as rings on the dendrogram, e.g. [country, host]
+  dpi: 300

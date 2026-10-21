@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use Philomenos, please cite it as below, together with the tools it runs (see README.md)."
+title: "Philomenos: recombination-aware whole-genome phylogenetics for bacterial genome collections"
+type: software
+authors:
+  - family-names: Rotaru
+    given-names: Liviu-Iulian
+version: 0.2.0
+license: GPL-3.0-or-later
+keywords:
+  - phylogenetics
+  - bacterial genomics
+  - recombination
+  - Gubbins
+  - IQ-TREE

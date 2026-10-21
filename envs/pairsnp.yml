@@ -1,0 +1,8 @@
+# Tool group `pairsnp`: sparse pairwise SNP distances for the cluster stage.
+name: pairsnp
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - pairsnp=0.3.1

@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "philomenos"
+version = "0.2.0"
+description = "Recombination-aware whole-genome phylogenetics for bacterial genome collections"
+readme = "README.md"
+license = {text = "GPL-3.0-or-later"}
+requires-python = ">=3.10"
+authors = [{name = "Liviu Rotaru"}]
+dependencies = [
+    "biopython>=1.80",
+    "matplotlib>=3.7",
+    "numpy>=1.24",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+philomenos = "philomenos.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+philomenos = ["data/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["smoke: end-to-end run on the synthetic dataset (needs the external tools)"]

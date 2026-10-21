@@ -1,0 +1,95 @@
+# Philomenos config reproducing the ST2 + ST492 + ST636 phylogeny of the paper
+# with the new tool. Copy it to config.local.yaml (gitignored) and fill in the
+# machine-specific values marked REQUIRED. Relative paths resolve against this
+# file's folder (analyses/st492_paper/).
+#
+#   bash reference/fetch_reference.sh            # ACICU CP000863.1 FASTA + GenBank
+#   python make_samples_tsv.py --manifest ... --out samples.local.tsv
+#   philomenos doctor -c config.local.yaml
+#   philomenos run -c config.local.yaml --detach
+#
+# Thresholds follow the legacy (pre-0.2) run, with one difference: the legacy
+# filter failed a genome when min(AF_ref, AF_query) < 80, while qc.min_aligned_frac
+# tests only the % of the assembly aligned to the reference (skani AF_query), so
+# an assembly that aligns well but covers < 80% of the reference now passes
+# (the covfilter breadth check still applies). The legacy assembly-length window
+# of 3.5-4.8 Mb is expressed relative to the 3,904,116 bp reference.
+
+run:
+  name: st636_philomenos
+  outdir: ../../runs          # the repository's runs/ folder (gitignored)
+  threads: 96
+
+# Built by make_samples_tsv.py from the legacy st636 run manifest plus the NCBI
+# and study metadata (group = ST2 / ST492 / ST636).
+samples: samples.local.tsv
+
+reference:
+  fasta: reference/ACICU_CP000863.fasta      # downloaded by reference/fetch_reference.sh
+  genbank: reference/ACICU_CP000863.gbk      # only needed to rebuild the mask
+  mask_bed: reference/ACICU_CP000863.mask.bed  # the mask used in the paper (see README.md)
+
+tools:
+  conda: conda
+  envs:                       # REQUIRED: conda env names or prefixes on this machine
+    snippy: snippy
+    gubbins: gubbins
+    iqtree: gubbins           # envs/gubbins.yml ships IQ-TREE 2 and VeryFastTree
+    pairsnp: pairsnp
+    quast: quast              # envs/quast.yml (QUAST needs Python 3.11)
+    skani: qc                 # envs/qc.yml: skani and CheckM2
+    checkm2: qc
+    mask: mask
+
+qc:
+  enabled: true
+  min_length_frac: 0.8964897  # 3.5 Mb / 3,904,116 bp
+  max_length_frac: 1.2294717  # 4.8 Mb / 3,904,116 bp
+  max_contigs: 500
+  min_n50: 25000
+  max_ns_per_100kbp: 1000
+  ani: true
+  min_ani: 98.0
+  min_aligned_frac: 80.0
+  checkm2: true
+  checkm2_db: null            # REQUIRED: path to the CheckM2 DIAMOND database (.dmnd)
+  min_completeness: 95.0
+  max_contamination: 5.0
+
+snippy:
+  jobs: 48
+  threads_per_job: 2
+  # Optional: reuse the per-sample snippy outputs of the legacy run instead of
+  # re-mapping ~18,000 genomes, e.g. ../../runs/st2_phylo_st636_20260806/snippy
+  reuse_dir: null
+
+covfilter:
+  min_breadth: 0.90
+
+mask:
+  min_site_completeness: 0.95
+
+cluster:
+  snp_threshold: 10
+
+gubbins:
+  iterations: 5
+  min_snps: 3
+  filter_percentage: 25.0
+  seed: 1
+
+iqtree:
+  model: GTR+G                # ascertainment correction comes from -fconst
+  ufboot: 1000
+  alrt: 1000
+  seed: 1
+
+tree:
+  outgroup: null              # midpoint rooting, as in the paper
+
+report:
+  title: ST2 with ST492 and ST636 insertions
+  group_column: group
+  background_group: ST2
+  annotate: [country, region]
+  dpi: 300
