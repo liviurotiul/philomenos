@@ -1,0 +1,7 @@
+runs/
+metadata/
+__pycache__/
+*.py[cod]
+reference/*.fasta
+reference/*.gbk
+*.log

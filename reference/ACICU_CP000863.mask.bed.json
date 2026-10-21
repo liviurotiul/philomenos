@@ -1,0 +1,17 @@
+{
+  "reference": "ACICU_CP000863.fasta",
+  "seqid": "CP000863.1",
+  "length": 3904116,
+  "repeats_nucmer_bp": 84041,
+  "lowcomplexity_dustmasker_bp": 58449,
+  "transposon_is_genbank_bp": 24310,
+  "prophage_genbank_bp": 42795,
+  "mobile_elements_genbank_bp": 67105,
+  "masked_bp_total": 199335,
+  "masked_pct": 5.106,
+  "intervals": 2950,
+  "bed": "ACICU_CP000863.mask.bed",
+  "sources_bed": "ACICU_CP000863.mask.sources.bed",
+  "min_repeat_len": 200,
+  "min_repeat_id": 90.0
+}
