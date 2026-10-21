@@ -15,7 +15,8 @@ pip-installable, species-agnostic package with one `philomenos` command.
 - Stage engine with parameter fingerprints: completed stages are reused, and a
   stage whose inputs changed stops the run instead of being silently reused
   (`--force`, `--rerun-changed`).
-- One conda env per tool group (`envs/*.yml`) and a Docker image with all of them.
+- One conda env per tool group (`envs/*.yml`) and a `Dockerfile` that builds all of them
+  into one image (untested; no published image yet).
   QUAST has its own env (`envs/quast.yml`, Python 3.11) because CheckM2 1.1.0
   needs Python 3.12; `envs/qc.yml` holds skani and CheckM2.
 - Run-directory lock (`<run>/.lock`): a second `run` on an active run

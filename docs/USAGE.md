@@ -240,6 +240,9 @@ CheckM2 is off by default; to use it, download its database once
 
 ### Docker
 
+No prebuilt image is published, and the `Dockerfile` has not been tested yet.
+Build it yourself:
+
 ```bash
 docker build -t philomenos .
 docker run --rm philomenos smoke --tools-from /opt/philomenos/tools.container.yaml --outdir /tmp/smoke

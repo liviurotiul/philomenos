@@ -18,7 +18,8 @@ conda run -n philomenos pip install --no-deps -e .
 conda activate philomenos
 ```
 
-A Docker image with everything is also available (`docker build -t philomenos .`).
+A `Dockerfile` is included for building an image with every tool yourself; it is
+not yet tested and no prebuilt image is published.
 Details: [docs/USAGE.md](docs/USAGE.md#installation-details).
 
 ## Use
